@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -12,6 +12,65 @@ import {
 } from 'react-native';
 
 export default function App() {
+  const [adjective, setAdjective] = useState('');
+  const [name, setName] = useState('');
+  const [place, setPlace] = useState('');
+  const [noun, setNoun] = useState('');
+  const [verb, setVerb] = useState('');
+  const [color, setColor] = useState('');
+  const [currentScreen, setCurrentScreen] = useState('form');
+
+  const story = `One ${adjective} day, ${name} traveled to ${place} in a flying spaceship. While exploring, ${name} found a mysterious ${noun}. Suddenly, the ${noun} started to ${verb} and turned ${color}! Everyone in ${place} could not stop laughing at the strange space adventure.`;
+
+  const showStory = () => {
+    setCurrentScreen('story');
+  };
+
+  const goBack = () => {
+    setCurrentScreen('form');
+  };
+
+  const startAgain = () => {
+    setAdjective('');
+    setName('');
+    setPlace('');
+    setNoun('');
+    setVerb('');
+    setColor('');
+    setCurrentScreen('form');
+  };
+
+  if (currentScreen === 'story') {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <StatusBar style="dark" />
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={styles.heading}>Your Funny Story</Text>
+          <Text style={styles.subheading}>Here is your space adventure 🚀</Text>
+
+          <Image
+            source={{
+              uri: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=800&q=80',
+            }}
+            style={styles.image}
+          />
+
+          <View style={styles.card}>
+            <Text style={styles.storyText}>{story}</Text>
+
+            <TouchableOpacity style={styles.button} onPress={goBack}>
+              <Text style={styles.buttonText}>Go Back</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.secondaryButton} onPress={startAgain}>
+              <Text style={styles.secondaryButtonText}>Start Again</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="dark" />
@@ -32,6 +91,8 @@ export default function App() {
             style={styles.input}
             placeholder="Enter an adjective"
             placeholderTextColor="#7a7a7a"
+            value={adjective}
+            onChangeText={setAdjective}
           />
 
           <Text style={styles.label}>Name</Text>
@@ -39,6 +100,8 @@ export default function App() {
             style={styles.input}
             placeholder="Enter a name"
             placeholderTextColor="#7a7a7a"
+            value={name}
+            onChangeText={setName}
           />
 
           <Text style={styles.label}>Place</Text>
@@ -46,6 +109,8 @@ export default function App() {
             style={styles.input}
             placeholder="Enter a place"
             placeholderTextColor="#7a7a7a"
+            value={place}
+            onChangeText={setPlace}
           />
 
           <Text style={styles.label}>Noun</Text>
@@ -53,6 +118,8 @@ export default function App() {
             style={styles.input}
             placeholder="Enter a noun"
             placeholderTextColor="#7a7a7a"
+            value={noun}
+            onChangeText={setNoun}
           />
 
           <Text style={styles.label}>Verb</Text>
@@ -60,6 +127,8 @@ export default function App() {
             style={styles.input}
             placeholder="Enter a verb"
             placeholderTextColor="#7a7a7a"
+            value={verb}
+            onChangeText={setVerb}
           />
 
           <Text style={styles.label}>Color</Text>
@@ -67,9 +136,11 @@ export default function App() {
             style={styles.input}
             placeholder="Enter a color"
             placeholderTextColor="#7a7a7a"
+            value={color}
+            onChangeText={setColor}
           />
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={showStory}>
             <Text style={styles.buttonText}>Show My Story</Text>
           </TouchableOpacity>
         </View>
@@ -152,11 +223,30 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#222222',
   },
+  secondaryButton: {
+    marginTop: 12,
+    backgroundColor: '#5B2C83',
+    paddingVertical: 14,
+    borderRadius: 14,
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: '#FFFFFF',
+  },
   footerText: {
     marginTop: 18,
     fontSize: 14,
     color: '#555555',
     textAlign: 'center',
     paddingHorizontal: 10,
+  },
+  storyText: {
+    fontSize: 18,
+    lineHeight: 30,
+    color: '#333333',
+    textAlign: 'center',
+    marginTop: 10,
   },
 });
